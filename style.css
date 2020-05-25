@@ -1,0 +1,24 @@
+body {
+    font-family: 'Roboto', 'Arial', sans-serif; 
+}
+
+#title {
+    text-align: center; 
+    color: darkgreen; 
+}
+
+#subtitle {
+    text-align: center;
+}
+
+#content {
+    text-align: center;
+}
+
+#controls {
+    padding-top: 2vh;
+}
+
+.controls {
+    padding-bottom: 300vh;
+}
