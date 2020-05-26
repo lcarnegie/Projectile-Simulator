@@ -1,4 +1,4 @@
-Physics Kinematics Simulation
+# Physics Kinematics Simulation
 
 Accurate HTML canvas simulation of a projectile in motion. Can change certain initial conditions to change the trajectory of the ball. 
 

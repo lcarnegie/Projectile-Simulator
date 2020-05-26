@@ -17,8 +17,17 @@ body {
 
 #controls {
     padding-top: 2vh;
+    margin-left: 30vw; 
+    margin-right: 30vw;
+    padding-left: 7.5vw; 
+    text-align: left; 
 }
 
-.controls {
-    padding-bottom: 300vh;
+#buttons {
+    margin-top: 1vh; 
+    margin-left: 6.4vw;
+}
+
+.units-label {
+    margin-left: 0.2vw;
 }

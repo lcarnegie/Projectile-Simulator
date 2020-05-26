@@ -1,9 +1,6 @@
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 
-
-
-
 //IMPORTANT NOTE: Origin (0,0) of the canvas is at the top-left corner of the canvas area. 
 
 /* Displays the default value in each of the HTML range sliders for the inital values upon loading the page, then draws the initial state of the animation*/
@@ -47,7 +44,6 @@ function drawBackground() {
         ctx.fillRect(i, 443, 20, 5) // draws the lane markers on the road 
         i += 40;
     }
-
     ctx.fillStyle = 'black';
     ctx.font = "15px Arial"
     ctx.fillText("Scale:", 30, 485)
@@ -57,6 +53,10 @@ function drawBackground() {
     ctx.fillStyle = '#567D46'
     ctx.fillRect(91, 470, 20, 8); //draws scaling reference
     background = ctx.getImageData(0, 0, canvas.width, canvas.height);
+}
+
+function drawCannon(){
+
 }
 
 /* Draws the platform the projectile rests on when an initial height is being chosen. */
@@ -75,7 +75,6 @@ function drawAnimatedPlatform() {
     ctx.fillStyle = '#B3001B'
     ctx.fillRect(xo - radius, 435 - document.getElementById('ynaught').value * scale + radius, radius * 2, document.getElementById('ynaught').value * scale)
 }
-
 
 /* Draws each frame in the animation; clears the canvas, draws the background, 
 and draws the projectile at its current position.*/
@@ -103,8 +102,8 @@ function moveProjectile() {
     }
 }
 
-/* Resets simulation positions to their starting position 
-and the time to 0, clears the animation interval, and draws the ball back at the start.*/
+/* Resets simulation to starting position: sets the time to 0, 
+clears the animation interval, and draws the ball back at the start.*/
 function resetSim() {
     x = xo;
     y = yo;
@@ -112,14 +111,12 @@ function resetSim() {
     animation = clearInterval(animation);
     drawFrame();
     drawPlatform();
-    document.getElementById('run').disabled = false;
-    document.getElementById('reset').disabled = true;
+    enableInputs(); 
 }
 
 /* Fetches the values from each of the range values in the HTML tags, and then multiplies 
 them by the scale to get the correct values and scaling for the animation. Then, they are assigned to variables that 
-are used in the simulation. 
-*/
+are used in the simulation. */
 function getInputs() {
     vel = document.getElementById('vi').value * scale;
     angle = document.getElementById('theta').value * Math.PI / 180;
@@ -129,13 +126,34 @@ function getInputs() {
     ay = -1 * scale * document.getElementById('acceleration').value;
 }
 
+function enableInputs(){
+    document.getElementById('run').disabled = false;
+    document.getElementById('reset').disabled = true;
+    document.getElementById('vi').disabled = false;
+    document.getElementById('ynaught').disabled = false;
+    document.getElementById('theta').disabled = false;
+    document.getElementById('acceleration').disabled = false;
+}
+
+function disableInputs() {
+    document.getElementById('run').disabled = true;
+    document.getElementById('reset').disabled = false;
+    document.getElementById('vi').disabled = true;
+    document.getElementById('ynaught').disabled = true;
+    document.getElementById('theta').disabled = true;
+    document.getElementById('acceleration').disabled = true;
+    
+}
+
 /* Main Method: Gets the values from the HTML inputs, assigns them to the variables in the simulation, then runs the simulation */
 function runSim() {
     getInputs();
-    document.getElementById('run').disabled = true;
-    document.getElementById('reset').disabled = false;
+    disableInputs(); 
     animation = setInterval(moveProjectile, 1000 * dt); //refreshes the animation every dt seconds (1000 ms = 1s)
 }
+
+
+
 
 
 /*
