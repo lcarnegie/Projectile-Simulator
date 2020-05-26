@@ -1,5 +1,8 @@
 # Physics Kinematics Simulation
 
-Accurate HTML canvas simulation of a projectile in motion. 
-You can change certain initial conditions (eg. initial speed, angle, etc.) to change the trajectory of the ball. 
+Accurate HTML canvas simulation of a projectile in motion. Change certain initial conditions (eg. initial speed, angle, etc.) and watch the trajectory of the ball change! 
+
+A combined Grade 12 culminating project between my Physics and Computer Science courses. 
+
+
 
