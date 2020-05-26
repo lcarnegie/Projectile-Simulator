@@ -5,10 +5,14 @@ body {
 #title {
     text-align: center; 
     color: darkgreen; 
+    margin-top: 1vh;
+    margin-bottom: 0;
 }
 
 #subtitle {
     text-align: center;
+    margin-top: 1vh; 
+    margin-bottom: 1vh;
 }
 
 #content {
@@ -25,7 +29,7 @@ body {
 
 #buttons {
     margin-top: 1vh; 
-    margin-left: 6.4vw;
+    margin-left: 6vw;
 }
 
 .units-label {
