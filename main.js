@@ -60,11 +60,8 @@ function drawBackground() {
     background = ctx.getImageData(0, 0, canvas.width, canvas.height);
 }
 
-function drawCannon(){
 
-}
-
-/* Draws the platform the projectile rests on when an initial height is being chosen. */
+/* Draws the platform the projectile rests on and the projectile itself when an initial height is being chosen. */
 function drawPlatform() {
     drawBackground();
     ctx.beginPath();
@@ -81,7 +78,8 @@ function drawAnimatedPlatform() {
     ctx.fillRect(xo - radius, 435 - document.getElementById('ynaught').value * scale + radius, radius * 2, document.getElementById('ynaught').value * scale)
 }
 
-
+/* Draws the velocity components of the projectile as they are changing throughout the projectile's motion.
+Updated every frame the projectile is drawn, and can be enabled/disabled by the user.  */
 function drawComponents(){
     let xVel = vx + ax * t; //calculate the current x-velocity using the kinematics formula vf = vi + a * t; that said, the current x-velocity will stay the same, as ax is always equal to zero (when not accounting for air resistance)
     ctx.beginPath();
@@ -99,6 +97,8 @@ function drawComponents(){
 
 }
 
+/* Draws the velocity vector of the projectile as it changes throughout its trajectory. Updated every frame 
+the projectile is drawn, and can be enabled/disabled by the user.  */
 function drawVelocityVector(){
     let xVel = vx + ax * t; //calculate the current x-velocity using the kinematics formula vf = vi + a * t; that said, the current x-velocity will stay the same, as ax is always equal to zero (when not accounting for air resistance)
     let yVel = vy + ay * t; //calculate the current x-velocity using the kinematics formula vf = vi + a * t
@@ -174,6 +174,7 @@ function getInputs() {
     ay = -1 * scale * document.getElementById('acceleration').value;
 }
 
+/* Enables all of the inputs so that they can be edited by the user, while disabling the reset button (reset button triggers this function) */
 function enableInputs(){
     document.getElementById('run').disabled = false;
     document.getElementById('reset').disabled = true;
@@ -183,6 +184,7 @@ function enableInputs(){
     document.getElementById('acceleration').disabled = false;
 }
 
+/* Disables all the inputs as well as the 'run simulation' button, so that they cannot be changed when the simulation is running.  */
 function disableInputs() {
     document.getElementById('run').disabled = true;
     document.getElementById('reset').disabled = false;
