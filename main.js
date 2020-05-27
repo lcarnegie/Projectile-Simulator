@@ -36,10 +36,10 @@ let x = xo; // x-position of the projectile, in pixels from the origin (top-left
 let platformX = 0; //x-position of starting platform, in pixels from the origin (top-left corner)
 let platformY = 0; //x-position of starting platform, in pixels from the origin (top-left corner)
 
-let targetWidth = 100; 
-let targetHeight = 25;  
-let targetX = Math.floor(Math.random() * (980 - targetWidth - 20)) + 100; 
-let targetY = 433;
+let targetWidth = 100; //width of the target, in pixels
+let targetHeight = 25; //height of the target, in pixels 
+let targetX = Math.floor(Math.random() * (980 - 3 * targetWidth)) + 100; //x-position of the top-left corner of the target, in pixels from the origin
+let targetY = 433; //y-position of the top-left corner of the target, in pixels from the origin
 
 
 /* Draws the background of each animation frame*/
