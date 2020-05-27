@@ -21,6 +21,7 @@
     <br>
     <label>Acceleration of Gravity: </label><input type="range" id="acceleration" min="0.1" max="20" step="0.1" value="9.8" oninput="acceleration_disp.innerHTML = acceleration.value"><span id="acceleration_disp"></span><label class="units-label">m/s<sup>2</sup></label></span>
     <br>
+    <div id="v-vector-enable"><label>Enable Velocity Vector:</label><input type="checkbox" id="v-vector-checkbox"></div><span id="component-enable"><label>Enable Components:</label><input type="checkbox" id="components-checkbox"></span>
     <div id="buttons">
     <button id="run" onclick="runSim()">Throw Ball</button>
     <button id="reset" onclick="resetSim()" disabled="true">Reset Position</button>

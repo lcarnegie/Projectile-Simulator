@@ -21,6 +21,7 @@ body {
 
 #controls {
     padding-top: 2vh;
+    padding-bottom: 1vh; 
     margin-left: 30vw; 
     margin-right: 30vw;
     padding-left: 7.5vw; 
@@ -28,10 +29,25 @@ body {
 }
 
 #buttons {
-    margin-top: 1vh; 
+    margin-top: 1.5vh; 
     margin-left: 6vw;
 }
 
 .units-label {
     margin-left: 0.2vw;
+}
+
+
+#v-vector-enable {
+    display: inline-block; 
+    margin-left: -1vw;
+}
+
+#component-enable {
+    display: inline-block; 
+    margin-left: 1.5vw;
+}
+
+#component-enable, #v-vector-enable {
+    margin-top: 1.5vh; 
 }

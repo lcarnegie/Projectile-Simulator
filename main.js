@@ -1,9 +1,11 @@
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
+ctx.lineWidth = 3; //set line-stroke width to 3 pixels 
 
 //IMPORTANT NOTE: Origin (0,0) of the canvas is at the top-left corner of the canvas area. 
 
-/* Displays the default value in each of the HTML range sliders for the inital values upon loading the page, then draws the initial state of the animation*/
+/* Displays the default value stored in each of the HTML range sliders for the inital values upon 
+loading the page and draws the initial state of the animation */
 function init() {
     document.getElementById('vi_disp').innerHTML = document.getElementById('vi').value;
     document.getElementById('ynaught_disp').innerHTML = document.getElementById('ynaught').value;
@@ -16,15 +18,18 @@ let animation = {}; // 'holder' variable for the setInterval function that updat
 
 let scale = 20; // 20 pixels = 1 metre.  
 let radius = 0.5 * scale; // radius of ball, in pixels.
-let ay = (document.getElementById('acceleration').value) * -1 * scale //acceleration of gravity, in pixels/second^2.
+let ay = (document.getElementById('acceleration').value) * -1 * scale //y-acceleration (gravity), in pixels/second^2.
+let ax = 0 //x-acceleration (none), in pixels/second^2
 let dt = 0.01; // time-step, in seconds. In other words, the time interval between updates of the animation 
 let t = 0; // initial time, in seconds. 
 let vel = document.getElementById('vi').value * scale; // initial velocity of the projectile in pixels/second
 let yo = 435 - (scale * document.getElementById('ynaught').value); // initial y-position of the projectile, in pixels from the origin (top-left corner)
 let xo = 50; // initial x-position of the projectile, in pixels from the origin (top-left corner)
 let angle = 60 * Math.PI / 180; // launch angle of the projectile, in degrees
-let vx = vel * Math.cos(angle); // horizontal velocity of the projectile, in pixels/second
-let vy = vel * Math.sin(angle); // vertical velocity of the projectile, in pixels/second
+let vx = vel * Math.cos(angle); // initial horizontal velocity of the projectile, in pixels/second
+let vy = vel * Math.sin(angle); // initial vertical velocity of the projectile, in pixels/second
+let xIncrement = 0; // Magnitude of the increment in the x-position, in pixels
+let yIncrement = 0; // Magnitude of the increment in the y-position, in pixels
 let y = yo; // y-position of the projectile, in pixels from the origin (top-left corner); set to initial position in projectile motion
 let x = xo; // x-position of the projectile, in pixels from the origin (top-left corner); set to initial position in projectile motion
 
@@ -76,8 +81,38 @@ function drawAnimatedPlatform() {
     ctx.fillRect(xo - radius, 435 - document.getElementById('ynaught').value * scale + radius, radius * 2, document.getElementById('ynaught').value * scale)
 }
 
+
+function drawComponents(){
+    let xVel = vx + ax * t; //calculate the current x-velocity using the kinematics formula vf = vi + a * t; that said, the current x-velocity will stay the same, as ax is always equal to zero (when not accounting for air resistance)
+    ctx.beginPath();
+    ctx.strokeStyle = '#F15BB5'; 
+    ctx.moveTo(x, y); 
+    ctx.lineTo(x + xVel/2 , y); //scale the velocity down to make it more attractive
+    ctx.stroke();  
+
+    let yVel = vy + ay * t; //calculate the current x-velocity using the kinematics formula vf = vi + a * t
+    ctx.beginPath();
+    ctx.strokeStyle = '#FEE440'; 
+    ctx.moveTo(x, y); 
+    ctx.lineTo(x, y - yVel/2); //scale the velocity down to make it more attractive
+    ctx.stroke();  
+
+}
+
+function drawVelocityVector(){
+    let xVel = vx + ax * t; //calculate the current x-velocity using the kinematics formula vf = vi + a * t; that said, the current x-velocity will stay the same, as ax is always equal to zero (when not accounting for air resistance)
+    let yVel = vy + ay * t; //calculate the current x-velocity using the kinematics formula vf = vi + a * t
+   
+    ctx.beginPath();
+    ctx.strokeStyle = '#00F5D4'; 
+    ctx.moveTo(x, y); 
+    ctx.lineTo(x + xVel/2 , y - yVel/2);  //scale the velocities down to make them more attractive; subtract y-velocity from y because origin is at top-left of canvas
+    ctx.stroke();
+}
+
 /* Draws each frame in the animation; clears the canvas, draws the background, 
-and draws the projectile at its current position.*/
+and draws the projectile at its current position. Also draws in the current velocity
+vector and/or velocity vector components of the ball, if selected by the user */
 function drawFrame() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawBackground();
@@ -86,6 +121,12 @@ function drawFrame() {
     ctx.arc(x, y, radius, 0, 2 * Math.PI);
     ctx.fillStyle = 'orange';
     ctx.fill();
+    if(document.getElementById('v-vector-checkbox').checked === true){
+        drawVelocityVector(); 
+    }
+    if(document.getElementById('components-checkbox').checked === true){
+        drawComponents(); 
+    }
 }
 
 /* Calculates the current position of the projectile in the trajectory and 
@@ -93,12 +134,19 @@ updates the canvas with the projectile at that position */
 function moveProjectile() {
     if (t === 0 || y <= 445 - radius) {
         t += dt; //adds the timestep value to the last time value
-        let xIncrement = vx * t; // x-position is incremented using the 3rd kinematics equation: d = vi * t + 0.5 * a * t^2, but simplifies to d = vi * t, because acceleration in x-dimension is 0
-        let yIncrement = vy * t + .5 * ay * (t * t); // y-position is also incremented using the 3rd kinematics equation, d = vi * t + 0.5 * a * t^2.  
+        xIncrement = vx * t; // x-position is incremented using the 3rd kinematics equation: d = vi * t + 0.5 * a * t^2, but simplifies to d = vi * t, because acceleration in x-dimension is 0 if air resistance is not accounted for. 
+        yIncrement = vy * t + .5 * ay * (t * t); // y-position is also incremented using the 3rd kinematics equation, d = vi * t + 0.5 * a * t^2.  
         x = xo + xIncrement;
         y = yo - yIncrement; //y-increment is subtracted from y-position because (0,0) is on the top-left of the canvas.
         drawFrame();
         //TODO: add option to enable x- and y- velocity vectors 
+    }
+    if(t > 0 && y >= 445 - radius){ //sets all velocities to zero, and redraws components once projectile hits the ground. Components won't be there, showing that the projectile is not moving anymore
+        vx = 0; 
+        vy = 0; 
+        ay = 0; //note, will be reset
+        ax = 0; 
+        drawFrame()
     }
 }
 
@@ -145,13 +193,13 @@ function disableInputs() {
     
 }
 
+
 /* Main Method: Gets the values from the HTML inputs, assigns them to the variables in the simulation, then runs the simulation */
 function runSim() {
     getInputs();
     disableInputs(); 
     animation = setInterval(moveProjectile, 1000 * dt); //refreshes the animation every dt seconds (1000 ms = 1s)
 }
-
 
 
 
