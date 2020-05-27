@@ -2,7 +2,7 @@
 
 Accurate HTML canvas simulation of a projectile in motion. Change certain initial conditions (eg. initial speed, angle, etc.) and watch the trajectory of the ball change! 
 
-A combined Grade 12 culminating project between my Physics and Computer Science courses. 
+My combined Grade 12 culminating project between my Physics and Computer Science courses. 
 
 
 
