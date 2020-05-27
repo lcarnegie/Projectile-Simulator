@@ -36,6 +36,12 @@ let x = xo; // x-position of the projectile, in pixels from the origin (top-left
 let platformX = 0; //x-position of starting platform, in pixels from the origin (top-left corner)
 let platformY = 0; //x-position of starting platform, in pixels from the origin (top-left corner)
 
+let targetWidth = 100; 
+let targetHeight = 25;  
+let targetX = Math.floor(Math.random() * (980 - targetWidth - 20)) + 100; 
+let targetY = 433;
+
+
 /* Draws the background of each animation frame*/
 function drawBackground() {
     ctx.fillStyle = '#87CEFA' //sets color of sky
@@ -61,7 +67,7 @@ function drawBackground() {
 }
 
 
-/* Draws the platform the projectile rests on and the projectile itself when an initial height is being chosen. */
+/* Redraws the frame, adding a platform if needed when the initial height is being changed by the user. */
 function drawPlatform() {
     drawBackground();
     ctx.beginPath();
@@ -70,12 +76,29 @@ function drawPlatform() {
     ctx.fill();
     ctx.fillStyle = '#B3001B'
     ctx.fillRect(x - radius, 435 - document.getElementById('ynaught').value * scale + radius, radius * 2, document.getElementById('ynaught').value * scale)
+    drawTarget(); 
 }
 
 /* Draws the platform when the projectile is in motion. Redrawn every time the canvas is updated */
 function drawAnimatedPlatform() {
     ctx.fillStyle = '#B3001B'
     ctx.fillRect(xo - radius, 435 - document.getElementById('ynaught').value * scale + radius, radius * 2, document.getElementById('ynaught').value * scale)
+}
+
+/* Randomly generates a target  somewhere where the ball can land onscreen*/
+function drawTarget() {
+    ctx.fillStyle = 'red'; 
+    ctx.fillRect(targetX, targetY, targetWidth, targetHeight); 
+    ctx.fillStyle = 'white'
+    ctx.fillRect(targetX + 10, targetY + 5, targetWidth - 20, targetHeight - 10); 
+    ctx.fillStyle = 'red'; 
+    ctx.fillRect(targetX + 20, targetY + 10, targetWidth - 40, targetHeight - 20); 
+}
+
+/* Redraws the target in a new place, if the user clicks the "New target!" button */
+function resetTarget(){
+    targetX = Math.floor(Math.random() * (980 - targetWidth - 20)) + 100; 
+    drawFrame(); 
 }
 
 /* Draws the velocity components of the projectile as they are changing throughout the projectile's motion.
@@ -111,12 +134,13 @@ function drawVelocityVector(){
 }
 
 /* Draws each frame in the animation; clears the canvas, draws the background, 
-and draws the projectile at its current position. Also draws in the current velocity
+and draws the projectile at its current position and the current target. Also draws in the current velocity
 vector and/or velocity vector components of the ball, if selected by the user */
 function drawFrame() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawBackground();
     drawAnimatedPlatform();
+    drawTarget(); 
     ctx.beginPath();
     ctx.arc(x, y, radius, 0, 2 * Math.PI);
     ctx.fillStyle = 'orange';
@@ -158,7 +182,6 @@ function resetSim() {
     t = 0;
     animation = clearInterval(animation);
     drawFrame();
-    drawPlatform();
     enableInputs(); 
 }
 
