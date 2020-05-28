@@ -1,6 +1,7 @@
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 ctx.lineWidth = 3; //set line-stroke width to 3 pixels 
+const winnerAudio = new Audio('winner.mp3'); 
 
 //IMPORTANT NOTE: Origin (0,0) of the canvas is at the top-left corner of the canvas area. 
 
@@ -98,7 +99,7 @@ function drawTarget() {
 /* Redraws the target in a new place, if the user clicks the "New target!" button */
 function resetTarget(){
     targetX = Math.floor(Math.random() * (980 - targetWidth - 20)) + 100; 
-    drawFrame(); 
+    drawPlatform(); 
 }
 
 /* Draws the velocity components of the projectile as they are changing throughout the projectile's motion.
@@ -165,6 +166,11 @@ function moveProjectile() {
         drawFrame();
         //TODO: add option to enable x- and y- velocity vectors 
     }
+    if(t > 0 && y >= 445 - radius && x > targetX && x < targetX + targetWidth){ //if the projectile hits the target, plays winner audio and displays an alert saying that they have hit a target
+        animation = clearInterval(animation);
+        winnerAudio.play(); 
+        alert("You hit the target!!"); 
+    }
     if(t > 0 && y >= 445 - radius){ //sets all velocities to zero, and redraws components once projectile hits the ground. Components won't be there, showing that the projectile is not moving anymore
         vx = 0; 
         vy = 0; 
@@ -172,6 +178,7 @@ function moveProjectile() {
         ax = 0; 
         drawFrame()
     }
+    
 }
 
 /* Resets simulation to starting position: sets the time to 0, 
