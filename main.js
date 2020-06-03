@@ -6,16 +6,6 @@ winnerAudio.load();
 
 //IMPORTANT NOTE: Origin (0,0) of the canvas is at the top-left corner of the canvas area. 
 
-/* Displays the default value stored in each of the HTML range sliders for the inital values upon 
-loading the page and draws the initial state of the animation */
-function init() {
-    document.getElementById('vi_disp').innerHTML = document.getElementById('vi').value;
-    document.getElementById('ynaught_disp').innerHTML = document.getElementById('ynaught').value;
-    document.getElementById('theta_disp').innerHTML = document.getElementById('theta').value;
-    document.getElementById('acceleration_disp').innerHTML = document.getElementById('acceleration').value;
-    drawFrame();
-}
-
 let animation = {}; // 'holder' variable for the setInterval function that updates the animation
 
 let scale = 20; // 20 pixels = 1 metre.  
@@ -43,6 +33,15 @@ let targetHeight = 25; //height of the target, in pixels
 let targetX = Math.floor(Math.random() * (980 - 3 * targetWidth)) + 100; //x-position of the top-left corner of the target, in pixels from the origin
 let targetY = 433; //y-position of the top-left corner of the target, in pixels from the origin
 
+/* Displays the default value stored in each of the HTML range sliders for the inital values upon 
+loading the page and draws the initial state of the animation */
+function init() {
+    document.getElementById('vi_disp').innerHTML = document.getElementById('vi').value;
+    document.getElementById('ynaught_disp').innerHTML = document.getElementById('ynaught').value;
+    document.getElementById('theta_disp').innerHTML = document.getElementById('theta').value;
+    document.getElementById('acceleration_disp').innerHTML = document.getElementById('acceleration').value;
+    drawFrame();
+}
 
 /* Draws the background of each animation frame*/
 function drawBackground() {
